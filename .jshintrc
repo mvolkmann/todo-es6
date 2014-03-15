@@ -1,0 +1,9 @@
+{
+  "browser": true,
+  "devel": true,
+  "esnext": true,
+  "indent": 2,
+  "jquery": false,
+  "maxlen": 80,
+  "node": true
+}

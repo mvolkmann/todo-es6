@@ -1,0 +1,17 @@
+body {
+  padding-left: 10px;
+}
+
+h2 {
+  color: blue;
+}
+
+.unstyled {
+  list-style: none;
+  padding-left: 0;
+}
+
+.done-true {
+  color: gray;
+  text-decoration: line-through;
+}

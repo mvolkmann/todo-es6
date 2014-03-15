@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="Todo">
+  <head>
+    <link rel="stylesheet" href="styles/todo.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+    <script src="lib/traceur-runtime.js"></script>
+    <script src="build/app.js"></script>
+    <script src="http://localhost:35729/livereload.js"></script>
+  </head>
+  <body>
+    <h2>To Do List</h2>
+    <div ng-controller="TodoCtrl">
+      <div>
+        {{todoList.getUncompletedCount()}} of {{todoList.length}} remaining
+        <button ng-click="todoList.archiveCompleted()">Archive Completed</button>
+      </div>
+      <br>
+
+      <!-- Wrapping this in a form causes the button to be activated
+        when the input has focus and the return key is pressed. -->
+      <form>
+        <input type="text" ng-model="todoText" size="30"
+          placeholder="enter new todo here" autofocus>
+        <button ng-click="addTodo()" ng-disabled="!todoText">Add</button>
+      </form>
+
+      <ul class="unstyled">
+        <li ng-repeat="(ts, todo) in todoList.todos">
+          <input type="checkbox" ng-model="todo.done">
+          <span class="done-{{todo.done}}">{{todo.text}}</span>
+          <button ng-click="todoList.delete(todo)">Delete</button>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
