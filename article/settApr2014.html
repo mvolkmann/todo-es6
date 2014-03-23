@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <meta name="description" content="ES6: Jump in, the water is warm!"/>
+    <meta name="keywords" content="SETT, OCI, JavaScript, Traceur, ES6"/>
+    <meta name="author" content="R. Mark Volkmann"/>
+    <title>SETT April 2014 - ES6: Jump in, the water is warm!</title>
+
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://ociweb.com/sett/rss.xml">
+    <link href="styles/SETT.css" rel="stylesheet">
+    <style>
+      img { border: solid LightGray 1px; }
+    </style>
+
+    <!--Used for syntax highlighting.  -->
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet">
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet">
+</head>
+<body>
+<!--#include virtual="header.shtml" -->
+
+<h1>ES6: Jump in, the water is warm!</h1>
+<p class="author">
+    by<br/>
+
+    R. Mark Volkmann, Partner
+    <br/>Object Computing, Inc. (OCI)
+</p>
+
+<i>
+  All the example code and configuration files
+  that appear in this article are in GitHub at
+  <a href="https://github.com/mvolkmann/todo-es6">
+    https://github.com/mvolkmann/todo-es6</a>.
+</i>
+
+<h2>ECMAScript 6</h2>
+<p>
+  The JavaScript language is defined by the ECMAScript specification,
+  also known as ECMA-262.
+  ECMAScript 6 (ES6) defines the next version of JavaScript.
+  ECMA Technical Committee 39 (TC39) has a goal to
+  complete the ES6 specification by the end of 2014.
+  The current draft state of the specification can be viewed at
+  <a href="http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts">
+    http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts</a>.
+</p>
+<p>
+  The number of new features being added in ES6 is much greater
+  than the number added in ES5.
+  Unlike ES5, some of the ES6 features involve new language syntax.
+  ES6 will be backward compatible with ES5 which is backward compatible with ES3.
+  Wikipedia provides a description of what happened to ES4 under "<a href="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a>".
+</p>
+<p>
+  There are many articles and videos on the web that describe the ES6 features.
+  A good place to start is Luke Hoban's summary at
+  <a href="https://github.com/lukehoban/es6features">
+    https://github.com/lukehoban/es6features</a>.
+</p>
+<p>
+  It may take years for all the features in ES6
+  to be supported in all the major browsers.
+  That's too long to wait and you don't have to wait.
+  You can use a transpiler today.
+  This will enable getting comfortable with the new features sooner
+  and will allow writing more compact, more expressive code now.
+</p>
+<p>
+  For a summary of ES6 feature support in browsers
+  (and in the Traceur tool discussed next), see the
+  ES6 compatibility table from Juriy Zaytsev (a.k.a. kangax) at 
+  <a href="http://kangax.github.io/es5-compat-table/es6/">
+    http://kangax.github.io/es5-compat-table/es6/</a>.
+  Try selecting the "Sort by number of features?" checkbox.
+  Currently Firefox has a clear lead in ES6 support.
+</p>
+
+<h2>Transpilers</h2>
+<p>
+  Compilers translate code in some programming language
+  to another form with a lower-level of abstraction.
+  For example, Java code is compiled to bytecode.
+  Transpilers translate code in some programming language
+  to another form with basically the same level of abstraction.
+  For example, CoffeeScript code is transpiled to JavaScript.
+</p>
+<p>
+  There are several available transpilers that translate ES6 code to ES5.
+</p>
+
+<h2>Google Traceur</h2>
+<p>
+  Probably the most capable transpiler for ES6 to ES5 translation
+  in terms of feature support is Google Traceur.
+  It is implemented in ES6 and uses itself to transpile
+  its own ES6 code to ES5 code that runs on Node.js.
+  For more detail, see
+  <a href="https://github.com/google/traceur-compiler">
+    https://github.com/google/traceur-compiler</a>.
+</p>
+<p>
+  There is an online tool at
+  <a href="http://google.github.io/traceur-compiler/demo/repl.html">
+    http://google.github.io/traceur-compiler/demo/repl.html</a>
+  that allows entering ES6 on the left side
+  and shows the resulting ES5 code on the right.
+  This is useful for testing support for specific ES6 features
+  and gaining an understanding of what Traceur generates.
+  It does not execute the code.
+  The “Options” menu includes the ability to enable experimental features.
+</p>
+<p>
+  The easiest way to install Traceur is to install Node.js
+  and then run this command:
+<pre class="code">
+npm install -g traceur
+</pre>
+<p>
+  To get help on options:
+</p>
+<pre class="code">
+traceur --help
+traceur --longhelp
+</pre>
+<p>
+  To run code in an ES6 file:
+</p>
+<pre class="code">
+traceur {es6-file-path}
+</pre>
+<p>
+  This command requires the file extension to be <code>.js</code>,
+  but it can be omitted in the command.
+</p>
+<p>
+To compile an ES6 file to an ES5 file:
+</p>
+<pre class="code">
+traceur --script {es6-file-path} --out {es5-file-path}
+</pre>
+<p>
+The generated code depends on the provided file <code>traceur-runtime.js</code>.
+This file can be copied from the directory where Traceur is installed.
+Assuming it was installed globally, determine the location by running
+<code>npm -g root</code>.
+The file will be below that directory in <code>traceur/bin</code>.
+To use the generated code in a browser, include a
+<code>script</code> tag for that file.
+</p>
+<p>
+To generate a sourcemap file which is useful for debugging in a browser,
+add the <code>--sourcemap</code> option.
+</p>
+<p>
+To run with experimental features, add the <code>--experimental</code> option.
+One example of a feature that is currently considered experimental
+is the <code>let</code> keyword.
+</p>
+
+<h2>Sourcemaps</h2>
+<p>
+  Sourcemaps allow browser debuggers to step through code that
+  was transpiled from another language into the
+  actual JavaScript code that runs in the browser.
+  For example, they can be used to debug CoffeeScript code.
+  They can also be used to debug ES6 code that was transpiled to ES5.
+</p>
+<p>
+  Traceur has an option for generating sourcemaps.
+  It places them in the same directory as the generated ES5 files.
+  The browser will look for them there.
+</p>
+<p>
+  To use sourcemaps in Chrome,
+</p>
+<ol>
+  <li>open Developer Tools</li>
+  <li>click the gear icon in the upper-right</li>
+  <li>check "Enable JS source maps"</li>
+  <li>check "Search in content scripts"</li>
+  <li>select ES6 .js files from the “Sources” tab</li>
+  <li>set breakpoints</li>
+  <li>refresh the page</li>
+</ol>
+<p>
+  In Firefox, sourcemaps are enabled by default.
+  To open the Firefox debugger,
+  select Tools...Web Developer...Debugger.
+</p>
+
+<h2>Linting</h2>
+<p>
+  Many JavaScript developers, including me, feel that it is important
+  to use some linting tool when writing JavaScript code.
+  Linting tools save time and reduce errors by catching coding issues
+  before the code is run.
+  They can be run from a command-line, integrated into editors/IDEs,
+  and run automatically when files are saved from any editor
+  using tools like Grunt.
+</p>
+<p>
+  The three most popular JavaScript linting tools seem to be
+  JSLint (<a href="http://jslint.org">http://jslint.org</a>),
+  JSHint (<a href="http://jshint.org">http://jshint.org</a>), and
+  ESLint (<a href="http://eslint.org">http://eslint.org</a>).
+  It is unclear if or when JSLint will support ES6.
+  JSHint has good support now using the "<code>esnext</code>" option.
+  ESLint plans to support ES6, but doesn't yet.
+</p>
+<p>
+  I highly recommend using JSHint to check ES6 code!
+</p>
+<p>
+  Here is the JSHint configuration file I use:
+</p>
+<h3>.jshintrc</h3>
+<pre class="brush: js; highlight:[4]">
+{
+  "browser": true,
+  "devel": true,
+  "esnext": true,
+  "indent": 2,
+  "jquery": false,
+  "maxlen": 80,
+  "node": true
+}
+</pre>
+
+<h2>Grunt</h2>
+<p>
+  Grunt is a great tool for automating web development tasks.
+  There are over 2,500 plugins available.  Several are related to Traceur.
+  These include "traceur", "traceur-latest", "traceur-build",
+  "traceur-simple", and "node-traceur".
+</p>
+<p>
+  Below is an example <code>Gruntfile.js</code> that uses "traceur-simple"
+  to automate transpiling ES6 files into ES5 when they are modified.
+  The lines that are specific to Traceur are highlighted in the
+  online version of this article at http://sett.ociweb.com/settApr2014.html.
+</p>
+<p>
+  This example also uses the "<code>watch</code>" plugin to watch for
+  changes to HTML, CSS and JavaScript files.  When it detects these, it
+  automatically runs specified tasks including linting CSS and JavaScript,
+  running Traceur to generate ES5 code, and refreshing the browser
+  to immediately show the results of the changes.
+  This last part is enabled by the "<code>livereload</code>" option
+  and including a special <code>script</code> tag in the main HTML file.
+</p>
+<p>
+  Gulp, at <a href="http://gulpjs.com">http://gulpjs.com</a> is a similar tool.
+  I used Grunt in the example presented here, but
+  I welcome a pull request to the example GitHub repo
+  with an equivalent <code>gulpfile.js</code> file.
+<p>
+
+<pre class="brush: js; highlight:[26,27,28,29,30,31,32,33,34,35,36,37,38,51]">
+module.exports = function (grunt) {
+  grunt.initConfig({
+    clean: ['build'],
+    connect: {
+      server: {
+        options: {
+          port: 3000,
+          base: '.'
+        }
+      }
+    },
+    csslint: {
+      strict: {
+        options: {
+          ids: false // allows ids to be used in CSS selectors
+        },
+        src: ['styles/*.css']
+      }
+    },
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc'
+      },
+      all: ['Gruntfile.js', 'scripts/**/*.js']
+    },
+    traceur: {
+      options: {
+        // This option includes runtime code in the generated file.
+        //includeRuntime: true,
+        traceurOptions: '--experimental --sourcemap'
+      },
+      all: {
+        files: {
+          // Just need to transpile main file which imports others.
+          'build/app.js': ['scripts/**/*.js']
+        }
+      }
+    },
+    watch: {
+      options: { livereload: true },
+      css: {
+        files: ['styles/*.css'],
+        tasks: ['csslint']
+      },
+      html: {
+        files: ['*.html'],
+        tasks: []
+      },
+      js: {
+        files: ['Gruntfile.js', 'scripts/**/*.js'],
+        tasks: ['jshint', 'traceur']
+      }
+    }
+  });
+
+  require('matchdep').filterDev('grunt-*').
+    forEach(grunt.loadNpmTasks);
+
+  grunt.registerTask('default',
+    ['csslint', 'jshint', 'traceur', 'connect', 'watch']);
+};
+</pre>
+
+<h2>Example</h2>
+<p>
+  Here is a basic todo web application written using AngularJS
+  and ES6.  Several features of ES6 are utilized including
+  arrow functions, default parameters,
+  <code>for</code>-<code>of</code> loops,
+  <code>let</code>, classes, modules, and generators.
+  For a small application like this, I likely would not
+  split the code into this many source files
+  and use as many classes.
+  This is done to more clearly demonstrate the use of modules.
+</p>
+<p>
+  A major goal of this example is to demonstrate that ES6
+  can be used in conjuction with existing JavaScript libraries
+  like AngularJS today.
+</p>
+<p>
+  To run this app:
+</p>
+<ol>
+  <li><code>git clone https://github.com/mvolkmann/todo-es6</code></li>
+  <li>install Node.js</li>
+  <li><code>npm install -g grunt-cli</code></li>
+  <li><code>cd</code> to the repo directory</li>
+  <li><code>npm install</code> to install Grunt plugins (includes grunt-traceur-simple and Traceur itself)</li>
+  <li><code>grunt</code> to start server</li>
+  <li>browse localhost:3000</li>
+</ol>
+
+<h3>Screenshot</h3>
+<img src="screenshot.png" alt="Todo app screenshot">
+
+<p>
+  While AngularJS is not the focus of this article, here is a brief explanation
+  of the AngularJS concepts that are used in <code>index.html</code>.
+  The <code>ng-app</code> attribute on line 2 identifies the main AngularJS module.
+  That is defined on line 7 in <code>scripts/app.js</code>.
+  The <code>ng-controller</code> attribute on line 12 in <code>index.html</code>
+  identifies the AngularJS controller
+  that is responsible for the "scope" of the entire document.
+  That is defined on lines 12-19 in <code>scripts/app.js</code>.
+  The main job of an AngularJS controller is to add data and functions to the scope.
+  The expressions in double curly braces refer to scope properties.
+  When the value of one of these expressions changes,
+  that part of the DOM is automatically updated.
+  The <code>ng-click</code> attributes specify scope expressions
+  to be evaluated when the associated element is clicked.
+  The <code>ng-model</code> attributes specify two-way data bindings.
+  When the specified scope property value changes,
+  the value of the corresponding input is updated.
+  When the user enters a new value in the input,
+  the corresponding scope property is modified.
+  The CSS class on the span that displays the text of a todo item is changed
+  when the "done" state of the todo item is changed.
+</p>
+<p>
+  For more details on AngularJS, see
+  <a href="http://angularjs.org">http://angularjs.org</a>.
+</p>
+
+<h3>index.html</h3>
+<pre class="brush: html; highlight:[2, 8, 9, 12]">
+&lt;!DOCTYPE html>
+&lt;html ng-app="Todo">
+  &lt;head>
+    &lt;link rel="stylesheet" href="styles/todo.css">
+    &lt;script
+      src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js">
+    &lt;/script>
+    &lt;script src="lib/traceur-runtime.js">&lt;/script>
+    &lt;script src="build/app.js">&lt;/script>
+    &lt;script src="http://localhost:35729/livereload.js">&lt;/script>
+  &lt;/head>
+  &lt;body ng-controller="TodoCtrl">
+    &lt;h2>To Do List&lt;/h2>
+    &lt;div>
+      {{todoList.getUncompletedCount()}} of {{todoList.length}} remaining
+      &lt;button ng-click="todoList.archiveCompleted()">
+        Archive Completed
+      &lt;/button>
+    &lt;/div>
+    &lt;br>
+
+    &lt;!-- Wrapping this in a form causes the button to be activated
+          when the input has focus and the return key is pressed. -->
+    &lt;form>
+      &lt;input type="text" ng-model="todoText" size="30"
+        placeholder="enter new todo here" autofocus>
+      &lt;button ng-click="addTodo()" ng-disabled="!todoText">
+        Add
+      &lt;/button>
+    &lt;/form>
+
+    &lt;ul class="unstyled">
+      &lt;li ng-repeat="(ts, todo) in todoList.todos">
+        &lt;input type="checkbox" ng-model="todo.done">
+        &lt;span class="done-{{todo.done}}">{{todo.text}}&lt;/span>
+        &lt;button ng-click="todoList.delete(todo)">Delete&lt;/button>
+      &lt;/li>
+    &lt;/ul>
+  &lt;/body>
+&lt;/html>
+</pre>
+
+<h3>styles/todo.css</h3>
+<pre class="brush: css; highlight:[]">
+body {
+  padding-left: 10px;
+}
+
+h2 {
+  color: blue;
+}
+
+.unstyled {
+  list-style: none;
+  padding-left: 0;
+}
+
+.done-true {
+  color: gray;
+  text-decoration: line-through;
+}
+</pre>
+
+<h3>scripts/app.js</h3>
+<!-- brush: js gets confused by the import statement. -->
+<pre class="brush: text; highlight:[8, 13]">
+'use strict';
+/*global angular: false */
+
+// Without the ./ in in the next line, Traceur looks for todolist.js
+// in the build directory instead of the scripts directory.
+import TodoList from './todolist';
+
+var app = angular.module('Todo', []);
+var todoList = new TodoList();
+todoList.add('learn AngularJS', true);
+todoList.add('build an AngularJS app');
+
+app.controller('TodoCtrl', $scope => {
+  $scope.todoList = todoList;
+
+  $scope.addTodo = () => {
+    todoList.add($scope.todoText);
+    $scope.todoText = ''; // clears input
+  };
+});
+</pre>
+
+<h3>scripts/todolist.js</h3>
+<pre class="brush: js; highlight:[]">
+'use strict';
+import Todo from './todo';
+import {values} from './generators';
+
+class TodoList {
+  constructor() {
+    // If Traceur supported Maps, this could be a Map with integer keys.
+    this.todos = {}; // map of Todo objects by timestamp
+    this.length = 0;
+  }
+
+  add(text, done = false) {
+    let todo = new Todo(text, done);
+    this.todos[String(todo.timestamp)] = todo;
+    this.length++;
+  }
+
+  archiveCompleted() {
+    // Not saving completed todos in this version.
+    for (let todo of values(this.todos)) {
+      if (todo.done) this.delete(todo);
+    }
+  }
+
+  delete(todo) {
+    delete this.todos[String(todo.timestamp)];
+    this.length--;
+  }
+
+  getUncompletedCount() {
+    // Unlike this.length, this must be recalculated because
+    // AngularJS changes the done property in the Todo objects.
+    // If Traceur supported proxies, we could track
+    // changes to the done properties.
+    let count = 0;
+    for (let todo of values(this.todos)) {
+      if (!todo.done) count++;
+    }
+    return count;
+  }
+}
+
+// Having a "default" export is useful when
+// there is one main thing a module exports.
+export default TodoList;
+</pre>
+
+<h3>scripts/todo.js</h3>
+<pre class="brush: js; highlight:[]">
+'use strict';
+
+class Todo {
+  // Traceur doesn't support static properties yet.
+  // If it did then lastTs could be static.
+
+  constructor(text, done = false) {
+    this.text = text;
+    this.done = done;
+
+    var ts = Date.now(); // used as unique identifier
+    // Adjust if this Todo was created in the
+    // same millisecond as the previous one.
+    this.timestamp = ts === Todo.lastTs ? ts + 1 : ts;
+    Todo.lastTs = this.timestamp;
+  }
+}
+
+export default Todo;
+</pre>
+
+<h3>scripts/generators.js</h3>
+<p>
+  This module exports several functions
+  and does not define a "default" export.
+</p>
+<pre class="brush: js; highlight:[]">
+'use strict';
+
+// This module defines several useful generators,
+// not all of which are used in the Todo app.
+
+// A generator for iterating over the key/value pairs in an object.
+export function* entries(obj) {
+  for (let key of Object.keys(obj)) {
+    yield [key, obj[key]];
+  }
+}
+
+// A generator for iterating over the keys in an object.
+export function* keys(obj) {
+  for (let key of Object.keys(obj)) {
+    yield key;
+  }
+}
+
+// Yields the first n values of an iterator.
+function* take(iterator, n) {
+  while (n > 0) {
+    yield iterator.next();
+    n--;
+  }
+}
+
+// A generator for iterating over the values in an object.
+export function* values(obj) {
+  for (let key of Object.keys(obj)) {
+    yield obj[key];
+  }
+}
+</pre>
+
+<h2>Summary</h2>
+
+<p>
+  So which features of ES6 should you start using today?
+  I recommend choosing those in the intersection of
+  the set of features supported by Traceur and
+  the set of features supported by JSHint.
+  The intersection includes at least these:
+</p>
+<ul>
+  <li>arrow functions</li>
+  <li>block scope (<code>const</code>, <code>let</code>, and functions)</li>
+  <li>classes</li>
+  <li>default parameters</li>
+  <li>destructuring</li>
+  <li><code>for</code>-<code>of</code> loops</li>
+  <li>generators</li>
+  <li>modules</li>
+  <li>rest parameters</li>
+  <li>spread operator</li>
+  <li>template strings</li>
+  <li>new methods in the <code>String</code>
+    and <code>Object</code> classes</li>
+</ul>
+
+<h2>References</h2>
+
+<ul>
+  <li>Example code in GitHub -
+  <a href="https://github.com/mvolkmann/todo-es6">
+    https://github.com/mvolkmann/todo-es6</a>
+  <li>ES6 Features (from Luke Hoban) -
+    <a href="https://github.com/lukehoban/es6features">
+      https://github.com/lukehoban/es6features</a>
+  </li>
+  <li>Harmony specification drafts -
+    <a href="http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts">
+      http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts</a>
+  </li>
+  <li>ES6 Compatibility Table (from kangax) -
+    <a href="http://kangax.github.io/es5-compat-table/es6/">
+      http://kangax.github.io/es5-compat-table/es6/</a>
+  </li>
+  <li>AngularJS -
+    <a href="http://angularjs.org">http://angularjs.org</a>
+  </li>
+  <li>Grunt -
+    <a href="http://gruntjs.com/">http://gruntjs.com/</a>
+  </li>
+  <li>JSHint -
+    <a href="http://www.jshint.com/">http://www.jshint.com/</a>
+  </li>
+  <li>Traceur -
+    <a href="https://github.com/google/traceur-compiler">
+https://github.com/google/traceur-compiler</a>
+  </li>
+</ul>
+
+<!--#include virtual="footer.shtml" -->
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushCss.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPlain.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushXML.js" type="text/javascript"></script>
+
+<script type="text/javascript">SyntaxHighlighter.all()</script>
+
+</body>
+</html>
