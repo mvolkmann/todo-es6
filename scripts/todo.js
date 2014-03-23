@@ -13,7 +13,7 @@ class Todo {
     // Adjust if this Todo was created in the
     // same millisecond as the previous one.
     this.timestamp = ts === Todo.lastTs ? ts + 1 : ts;
-    Todo.lastTs = ts;
+    Todo.lastTs = this.timestamp;
   }
 }
 
