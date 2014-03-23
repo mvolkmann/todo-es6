@@ -31,7 +31,8 @@ class TodoList {
 
   getUncompletedCount() {
     // Unlike this.length, this must be recalculated because
-    // AngularJS changes the done property in the Todo objects.
+    // AngularJS changes the done property in the Todo objects
+    // when checkboxes are checked.
     // If Traceur supported proxies, we could track
     // changes to the done properties.
     let count = 0;

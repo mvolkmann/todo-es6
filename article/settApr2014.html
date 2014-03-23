@@ -30,7 +30,7 @@
 </p>
 
 <i>
-  All the example code and configuration files
+  All example code and configuration files
   that appear in this article are in GitHub at
   <a href="https://github.com/mvolkmann/todo-es6">
     https://github.com/mvolkmann/todo-es6</a>.
@@ -95,7 +95,7 @@
 <p>
   Probably the most capable transpiler for ES6 to ES5 translation
   in terms of feature support is Google Traceur.
-  It is implemented in ES6 and uses itself to transpile
+  Traceur is implemented in ES6 and uses itself to transpile
   its own ES6 code to ES5 code that runs on Node.js.
   For more detail, see
   <a href="https://github.com/google/traceur-compiler">
@@ -145,14 +145,10 @@ traceur --script {es6-file-path} --out {es5-file-path}
 The generated code depends on the provided file <code>traceur-runtime.js</code>.
 This file can be copied from the directory where Traceur is installed.
 Assuming it was installed globally, determine the location by running
-<code>npm -g root</code>.
+<code>npm root -g</code>.
 The file will be below that directory in <code>traceur/bin</code>.
 To use the generated code in a browser, include a
-<code>script</code> tag for that file.
-</p>
-<p>
-To generate a sourcemap file which is useful for debugging in a browser,
-add the <code>--sourcemap</code> option.
+<code>script</code> tag for <code>traceur-runtime.js</code>.
 </p>
 <p>
 To run with experimental features, add the <code>--experimental</code> option.
@@ -169,8 +165,9 @@ is the <code>let</code> keyword.
   They can also be used to debug ES6 code that was transpiled to ES5.
 </p>
 <p>
-  Traceur has an option for generating sourcemaps.
-  It places them in the same directory as the generated ES5 files.
+  The <code>traceur</code> option <code>--sourcemap</code>
+  causes it to generate a sourcemap.
+  It places them in the same directory as generated ES5 files.
   The browser will look for them there.
 </p>
 <p>
@@ -244,8 +241,9 @@ is the <code>let</code> keyword.
 </p>
 <p>
   This example also uses the "<code>watch</code>" plugin to watch for
-  changes to HTML, CSS and JavaScript files.  When it detects these, it
-  automatically runs specified tasks including linting CSS and JavaScript,
+  changes to HTML, CSS and JavaScript files.
+  When <code>watch</code> detects these, it automatically
+  runs specified tasks including linting CSS and JavaScript,
   running Traceur to generate ES5 code, and refreshing the browser
   to immediately show the results of the changes.
   This last part is enabled by the "<code>livereload</code>" option
@@ -262,7 +260,7 @@ is the <code>let</code> keyword.
 module.exports = function (grunt) {
   grunt.initConfig({
     clean: ['build'],
-    connect: {
+    connect: { // serves static files
       server: {
         options: {
           port: 3000,
@@ -293,7 +291,7 @@ module.exports = function (grunt) {
       all: {
         files: {
           // Just need to transpile main file which imports others.
-          'build/app.js': ['scripts/**/*.js']
+          'build/app.js': ['scripts/app.js']
         }
       }
     },
@@ -305,7 +303,7 @@ module.exports = function (grunt) {
       },
       html: {
         files: ['*.html'],
-        tasks: []
+        tasks: [] // just watching for changes
       },
       js: {
         files: ['Gruntfile.js', 'scripts/**/*.js'],
@@ -343,11 +341,12 @@ module.exports = function (grunt) {
   To run this app:
 </p>
 <ol>
+  <li>install git if not already installed</li>
+  <li>install Node.js if not already installed</li>
   <li><code>git clone https://github.com/mvolkmann/todo-es6</code></li>
-  <li>install Node.js</li>
-  <li><code>npm install -g grunt-cli</code></li>
   <li><code>cd</code> to the repo directory</li>
   <li><code>npm install</code> to install Grunt plugins (includes grunt-traceur-simple and Traceur itself)</li>
+  <li><code>npm install -g grunt-cli</code></li>
   <li><code>grunt</code> to start server</li>
   <li>browse localhost:3000</li>
 </ol>
@@ -357,13 +356,13 @@ module.exports = function (grunt) {
 
 <p>
   While AngularJS is not the focus of this article, here is a brief explanation
-  of the AngularJS concepts that are used in <code>index.html</code>.
+  of the AngularJS concepts that are used in <code>index.html</code> below.
   The <code>ng-app</code> attribute on line 2 identifies the main AngularJS module.
-  That is defined on line 7 in <code>scripts/app.js</code>.
+  That is defined on line 8 in <code>scripts/app.js</code>.
   The <code>ng-controller</code> attribute on line 12 in <code>index.html</code>
   identifies the AngularJS controller
   that is responsible for the "scope" of the entire document.
-  That is defined on lines 12-19 in <code>scripts/app.js</code>.
+  That is defined on lines 13-20 in <code>scripts/app.js</code>.
   The main job of an AngularJS controller is to add data and functions to the scope.
   The expressions in double curly braces refer to scope properties.
   When the value of one of these expressions changes,
@@ -374,7 +373,7 @@ module.exports = function (grunt) {
   When the specified scope property value changes,
   the value of the corresponding input is updated.
   When the user enters a new value in the input,
-  the corresponding scope property is modified.
+  the corresponding scope property is updated.
   The CSS class on the span that displays the text of a todo item is changed
   when the "done" state of the todo item is changed.
 </p>
@@ -407,7 +406,7 @@ module.exports = function (grunt) {
     &lt;br>
 
     &lt;!-- Wrapping this in a form causes the button to be activated
-          when the input has focus and the return key is pressed. -->
+         when the input has focus and the return key is pressed. -->
     &lt;form>
       &lt;input type="text" ng-model="todoText" size="30"
         placeholder="enter new todo here" autofocus>
@@ -417,7 +416,7 @@ module.exports = function (grunt) {
     &lt;/form>
 
     &lt;ul class="unstyled">
-      &lt;li ng-repeat="(ts, todo) in todoList.todos">
+      &lt;li ng-repeat="(timestamp, todo) in todoList.todos">
         &lt;input type="checkbox" ng-model="todo.done">
         &lt;span class="done-{{todo.done}}">{{todo.text}}&lt;/span>
         &lt;button ng-click="todoList.delete(todo)">Delete&lt;/button>
@@ -506,7 +505,8 @@ class TodoList {
 
   getUncompletedCount() {
     // Unlike this.length, this must be recalculated because
-    // AngularJS changes the done property in the Todo objects.
+    // AngularJS changes the done property in the Todo objects
+    // when checkboxes are checked.
     // If Traceur supported proxies, we could track
     // changes to the done properties.
     let count = 0;
@@ -527,9 +527,6 @@ export default TodoList;
 'use strict';
 
 class Todo {
-  // Traceur doesn't support static properties yet.
-  // If it did then lastTs could be static.
-
   constructor(text, done = false) {
     this.text = text;
     this.done = done;
@@ -570,7 +567,7 @@ export function* keys(obj) {
   }
 }
 
-// Yields the first n values of an iterator.
+// A generator that yields the first n values of an iterator.
 function* take(iterator, n) {
   while (n > 0) {
     yield iterator.next();

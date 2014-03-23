@@ -16,7 +16,7 @@
     <br>
 
     <!-- Wrapping this in a form causes the button to be activated
-      when the input has focus and the return key is pressed. -->
+         when the input has focus and the return key is pressed. -->
     <form>
       <input type="text" ng-model="todoText" size="30"
         placeholder="enter new todo here" autofocus>
@@ -24,7 +24,7 @@
     </form>
 
     <ul class="unstyled">
-      <li ng-repeat="(ts, todo) in todoList.todos">
+      <li ng-repeat="(timestamp, todo) in todoList.todos">
         <input type="checkbox" ng-model="todo.done">
         <span class="done-{{todo.done}}">{{todo.text}}</span>
         <button ng-click="todoList.delete(todo)">Delete</button>

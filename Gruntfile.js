@@ -44,7 +44,7 @@ module.exports = function (grunt) {
       },
       html: {
         files: ['*.html'],
-        tasks: []
+        tasks: [] // just watching for changes
       },
       js: {
         files: ['Gruntfile.js', 'scripts/**/*.js'],

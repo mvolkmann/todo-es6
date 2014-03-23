@@ -18,7 +18,7 @@ export function* keys(obj) {
   }
 }
 
-// Yields the first n values of an iterator.
+// A generator that yields the first n values of an iterator.
 function* take(iterator, n) {
   while (n > 0) {
     yield iterator.next();
