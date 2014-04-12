@@ -26,7 +26,7 @@ module.exports = function (grunt) {
     },
     traceur: {
       options: {
-        //includeRuntime: true, // includes runtime code in generated file
+        includeRuntime: true, // includes runtime code in generated file
         traceurOptions: '--experimental --sourcemap'
       },
       all: {
