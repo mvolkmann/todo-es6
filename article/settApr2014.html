@@ -474,7 +474,6 @@ app.controller('TodoCtrl', $scope => {
 
 <h3>scripts/todolist.js</h3>
 <pre class="brush: js; highlight:[]">
-'use strict';
 import Todo from './todo';
 import {values} from './generators';
 
@@ -524,8 +523,6 @@ export default TodoList;
 
 <h3>scripts/todo.js</h3>
 <pre class="brush: js; highlight:[]">
-'use strict';
-
 class Todo {
   constructor(text, done = false) {
     this.text = text;
@@ -548,8 +545,6 @@ export default Todo;
   and does not define a "default" export.
 </p>
 <pre class="brush: js; highlight:[]">
-'use strict';
-
 // This module defines several useful generators,
 // not all of which are used in the Todo app.
 
