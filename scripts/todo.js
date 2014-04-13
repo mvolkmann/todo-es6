@@ -1,19 +1,21 @@
-'use strict';
 /*jshint esnext: true */
 
-class Todo {
-  // Traceur doesn't support static properties yet.
-  // If it did then lastTs could be static.
+var timestamp = 0;
 
-  constructor(text, done = false) {
+class Todo {
+  constructor(text, done = false, timestamp = Todo.timestamp()) {
     this.text = text;
     this.done = done;
+    this.timestamp = timestamp;
+  }
 
-    var ts = Date.now(); // used as unique identifier
-    // Adjust if this Todo was created in the
-    // same millisecond as the previous one.
-    this.timestamp = ts === Todo.lastTs ? ts + 1 : ts;
-    Todo.lastTs = this.timestamp;
+  static timestamp() {
+    var now = Date.now();
+
+    timestamp = now === timestamp ?
+      timestamp + 1 : now;
+
+    return timestamp;
   }
 }
 

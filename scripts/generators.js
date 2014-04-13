@@ -1,4 +1,3 @@
-'use strict';
 /*jshint esnext: true */
 
 // This module defines several useful generators,
