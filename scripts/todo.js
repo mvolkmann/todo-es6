@@ -1,4 +1,3 @@
-'use strict';
 /*jshint esnext: true */
 
 class Todo {
