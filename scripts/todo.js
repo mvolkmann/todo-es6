@@ -1,6 +1,6 @@
 /*jshint esnext: true */
 
-var timestamp = 0;
+var lastTs = 0;
 
 class Todo {
   constructor(text, done = false, timestamp = Todo.timestamp()) {
@@ -11,11 +11,9 @@ class Todo {
 
   static timestamp() {
     var now = Date.now();
-
-    timestamp = now === timestamp ?
-      timestamp + 1 : now;
-
-    return timestamp;
+    // Adjust if now is the same millisecond as lastTs.
+    lastTs = now === lastTs ? lastTs + 1 : now;
+    return lastTs;
   }
 }
 
