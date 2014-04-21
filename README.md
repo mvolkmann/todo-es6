@@ -14,5 +14,5 @@ To run this app:
 * <code>npm install -g grunt-cli</code>
 * <code>cd</code> to the repo directory
 * <code>npm install</code> to install Grunt plugins and other dependencies
-* <code>grunt</code> to start server
+* <code>grunt</code> or <code>gulp</code> to start server
 * browse localhost:3000
