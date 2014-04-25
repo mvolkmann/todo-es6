@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 
-gulp.task('csslint', function() {
+gulp.task('csslint', function () {
   return gulp.src('styles/*.css')
     .pipe($.csslint({
       ids: false // allows ids to be used in CSS selectors
@@ -11,13 +11,13 @@ gulp.task('csslint', function() {
     .pipe($.csslint.reporter());
 });
 
-gulp.task('jshint', function() {
+gulp.task('jshint', function () {
   return gulp.src(['gulpfile.js', 'scripts/**/*.js'])
     .pipe($.jshint())
     .pipe($.jshint.reporter($.jshintStylish));
 });
 
-gulp.task('traceur', function() {
+gulp.task('traceur', function () {
   var runtimePath = $.traceur.RUNTIME_PATH;
   var filter = $.filter('!traceur-runtime.js');
 
@@ -41,12 +41,12 @@ gulp.task('traceur', function() {
     .pipe(gulp.dest('build'));
 });
 
-gulp.task('clean', function() {
+gulp.task('clean', function () {
   return gulp.src('build', { read: false })
     .pipe($.clean());
 });
 
-gulp.task('connect', function() {
+gulp.task('connect', function () {
   var connect = require('connect');
   var app = connect()
     .use(require('connect-livereload')({
@@ -57,16 +57,16 @@ gulp.task('connect', function() {
 
   require('http').createServer(app)
     .listen(3000)
-    .on('listening', function() {
+    .on('listening', function () {
       console.log('Started connect web server on http://localhost:3000');
     });
 });
 
-gulp.task('serve', ['connect'], function() {
+gulp.task('serve', ['connect'], function () {
   require('opn')('http://localhost:3000');
 });
 
-gulp.task('watch', ['connect', 'serve'], function() {
+gulp.task('watch', ['connect', 'serve'], function () {
   var server = $.livereload();
 
   gulp.watch([
