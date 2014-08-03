@@ -2,6 +2,7 @@
   "name": "todo-es6",
   "version": "0.0.0",
   "description": "todo application using AngularJS and ES6",
+  "repository": {"type": "git", "url": "https://github.com/mvolkmann/todo-es6.git"},
   "main": "Gruntfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
