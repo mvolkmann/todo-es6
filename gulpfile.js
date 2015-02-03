@@ -38,7 +38,7 @@ gulp.task('traceur', function () {
     }))
     .pipe(filter.restore())
     .pipe($.concat('app.js'))
-    // .pipe($.uglify({preserveComments:'some'}).on('error', console.error))
+    .pipe($.uglify({preserveComments:'some'}).on('error', console.error))
     .pipe($.insert.append('System.get("app" + "");'))
     .pipe(gulp.dest('build'));
 });
