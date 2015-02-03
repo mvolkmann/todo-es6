@@ -83,4 +83,4 @@ gulp.task('watch', ['connect', 'serve'], function () {
   gulp.watch(['gulpfile.js', 'scripts/*.js'], ['jshint', 'traceur']);
 });
 
-gulp.task('default', ['csslint', 'jshint', 'traceur', 'connect']);
+gulp.task('default', ['csslint', 'jshint', 'traceur', 'connect', 'watch']);
