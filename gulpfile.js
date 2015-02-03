@@ -27,6 +27,7 @@ gulp.task('traceur', function () {
       'generators.js',
       'todo.js',
       'todolist.js',
+      'injectable.js',
       'app.js'
     ]))
     .pipe(filter)
@@ -37,6 +38,7 @@ gulp.task('traceur', function () {
     }))
     .pipe(filter.restore())
     .pipe($.concat('app.js'))
+    .pipe($.uglify({preserveComments:'some'}).on('error', console.error))
     .pipe($.insert.append('System.get("app" + "");'))
     .pipe(gulp.dest('build'));
 });
@@ -81,4 +83,4 @@ gulp.task('watch', ['connect', 'serve'], function () {
   gulp.watch(['gulpfile.js', 'scripts/*.js'], ['jshint', 'traceur']);
 });
 
-gulp.task('default', ['csslint', 'jshint', 'traceur', 'connect', 'watch']);
+gulp.task('default', ['csslint', 'jshint', 'traceur', 'connect']);
